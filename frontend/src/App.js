@@ -22,6 +22,8 @@ import AdminDashboard from './admin/AdminDashboard';
 import AdminLayout from './admin/AdminLayout'; // ✅ IMPORTANT
 import AdminBooking from './admin/AdminBooking';
 import AdminPackages from './admin/AdminPackages';
+import AdminReports from './admin/AdminReports';
+import AdminQuery from './admin/AdminQuery';
 export default function App() {
 
   const location = useLocation();
@@ -84,6 +86,26 @@ export default function App() {
           }
         />
         <Route
+  path="/admin/reports"
+  element={
+    <AdminRoute>
+      <AdminLayout>
+        <AdminReports />
+      </AdminLayout>
+    </AdminRoute>
+  }
+/> 
+ <Route
+  path="/admin/query"
+  element={
+    <AdminRoute>
+      <AdminLayout>
+        <AdminQuery />
+      </AdminLayout>
+    </AdminRoute>
+  }
+/>   
+        <Route
   path="/admin/bookings"
   element={
     <AdminRoute>
@@ -91,6 +113,7 @@ export default function App() {
         <AdminBooking />
       </AdminLayout>
     </AdminRoute>
+
   }
 />
 

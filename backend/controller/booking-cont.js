@@ -6,12 +6,33 @@ import Booking from "../models/Booking.js";
  */
 export const createBooking = async (req, res) => {
   try {
-    const { name, email, date, destination, persons, message } = req.body;
+    let {
+      name,
+      email,
+      date,
+      destination,
+      persons,
+      message,
+      price
+    } = req.body;
 
+    // ✅ Normalize values
+    price = Number(price);
+    persons = Number(persons);
+
+    // 🔴 Required validation
     if (!name || !email || !date || !destination || !persons) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be filled",
+      });
+    }
+
+    // 🔴 CRITICAL FIX: Validate price
+    if (!price || isNaN(price)) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid price is required",
       });
     }
 
@@ -21,8 +42,9 @@ export const createBooking = async (req, res) => {
       date,
       destination,
       persons,
+      price, // ✅ now guaranteed valid
       message,
-      user: req.user.id, // 🔥 linked to user
+      user: req.user.id,
     });
 
     res.status(201).json({
@@ -31,6 +53,8 @@ export const createBooking = async (req, res) => {
     });
 
   } catch (err) {
+    console.error("CREATE BOOKING ERROR:", err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -55,6 +79,8 @@ export const getMyBookings = async (req, res) => {
     });
 
   } catch (err) {
+    console.error("GET MY BOOKINGS ERROR:", err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -80,6 +106,8 @@ export const getAllBookings = async (req, res) => {
     });
 
   } catch (err) {
+    console.error("GET ALL BOOKINGS ERROR:", err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -88,40 +116,36 @@ export const getAllBookings = async (req, res) => {
 };
 
 
-/**
- * @desc Delete Booking (Only Owner or Admin)
- * @route DELETE /api/bookings/:id
- */
-export const deleteBooking = async (req, res) => {
+
+
+export const cancelBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
 
     if (!booking) {
-      return res.status(404).json({
-        success: false,
-        message: "Booking not found",
-      });
+      return res.status(404).json({ message: "Booking not found" });
     }
 
-    // 🔥 Check ownership
     if (booking.user.toString() !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "Not authorized",
-      });
+      return res.status(403).json({ message: "Not authorized" });
     }
 
-    await booking.deleteOne();
+    booking.status = "Cancelled";
 
-    res.status(200).json({
+    // 🔥 refund logic
+    if (booking.paymentStatus === "Paid") {
+      booking.paymentStatus = "Refunded";
+    }
+
+    await booking.save();
+
+    res.json({
       success: true,
-      message: "Booking deleted successfully",
+      message: "Booking cancelled successfully"
     });
 
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 };

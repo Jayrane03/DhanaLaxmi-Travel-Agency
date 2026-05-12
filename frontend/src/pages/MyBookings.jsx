@@ -11,39 +11,59 @@ function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 Images
+  const token = localStorage.getItem("token");
+
   const getImage = (location) => {
     if (!location) return "https://loremflickr.com/600/400/travel";
     const city = location.split(" ")[0];
     return `https://loremflickr.com/600/400/${city},travel?lock=${city}`;
   };
 
-  // FETCH BOOKINGS
+  // FETCH
+  const fetchBookings = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/bookings/my",
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setBookings(res.data.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const res = await axios.get(
-          "http://localhost:5000/api/bookings/my",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setBookings(res.data.data);
-        setLoading(false);
-
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
-      }
-    };
-
     fetchBookings();
   }, []);
+
+  // CANCEL BOOKING
+  const handleCancel = async (id) => {
+    if (!window.confirm("Cancel booking? Your money will be refunded 💸")) return;
+
+    try {
+      await axios.put(
+        `http://localhost:5000/api/bookings/${id}/cancel`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      alert("Booking cancelled. Refund will be processed 💸");
+
+      // refresh
+      fetchBookings();
+
+    } catch (err) {
+      console.error(err);
+      alert("Cancel failed ❌");
+    }
+  };
 
   return (
     <div>
@@ -52,9 +72,7 @@ function MyBookings() {
       <div className="container-fluid bg-primary py-5 mb-5 hero-header">
         <div className="container text-center">
           <h1 className="display-4 text-white">My Bookings</h1>
-          <p className="text-white">
-            Track and manage your travel plans
-          </p>
+          <p className="text-white">Track and manage your travel plans</p>
         </div>
       </div>
 
@@ -74,29 +92,23 @@ function MyBookings() {
 
                 <div className="package-item shadow rounded overflow-hidden">
 
-                  {/* IMAGE */}
                   <img
                     className="img-fluid"
                     src={getImage(booking.destination)}
                     alt={booking.destination}
                   />
 
-                  {/* INFO */}
                   <div className="p-4">
 
                     <h5>{booking.destination}</h5>
 
                     <p>
-                      <i className="fa fa-calendar me-2 text-primary"></i>
-                      {new Date(booking.date).toLocaleDateString()}
+                      📅 {new Date(booking.date).toLocaleDateString()}
                     </p>
 
-                    <p>
-                      <i className="fa fa-user me-2 text-primary"></i>
-                      {booking.persons} Persons
-                    </p>
+                    <p>👤 {booking.persons} Persons</p>
 
-                    {/* STATUS */}
+                    {/* BOOKING STATUS */}
                     <span className={`badge ${
                       booking.status === "Confirmed"
                         ? "bg-success"
@@ -107,15 +119,40 @@ function MyBookings() {
                       {booking.status || "Pending"}
                     </span>
 
+                    {/* PAYMENT STATUS */}
+                    <p className="mt-2">
+                      💳 Payment:{" "}
+                      <b className={
+                        booking.paymentStatus === "Paid"
+                          ? "text-success"
+                          : booking.paymentStatus === "Refunded"
+                          ? "text-warning"
+                          : "text-danger"
+                      }>
+                        {booking.paymentStatus || "Unpaid"}
+                      </b>
+                    </p>
+
                     {/* PAY BUTTON */}
-                    {booking.status !== "Confirmed" && (
+                    {booking.paymentStatus !== "Paid" && (
                       <button
-                        className="btn btn-primary w-100 mt-3"
+                        className="btn btn-primary w-100 mt-2"
                         onClick={() =>
                           navigate("/payment", { state: booking })
                         }
                       >
                         Pay Now 💳
+                      </button>
+                    )}
+
+                    {/* CANCEL BUTTON */}
+                    {booking.paymentStatus === "Paid" &&
+                      booking.status !== "Cancelled" && (
+                      <button
+                        className="btn btn-danger w-100 mt-2"
+                        onClick={() => handleCancel(booking._id)}
+                      >
+                        Cancel Booking ❌
                       </button>
                     )}
 
@@ -127,7 +164,6 @@ function MyBookings() {
             ))}
 
           </div>
-
         )}
 
       </div>

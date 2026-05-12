@@ -1,0 +1,101 @@
+
+
+/* CONTAINER */
+.query-container {
+  padding: 20px;
+  color: white;
+
+}
+
+
+/* USER CARD */
+.user-card {
+  background: #1e293b;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* HEADER */
+.user-header {
+    color:aliceblue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-header h3 {
+  margin: 0;
+  color: aliceblue;
+}
+
+.query-count {
+  background: #3b82f6;
+  padding: 4px 10px;
+  color:white;
+  
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+/* QUERY LIST */
+.query-list {
+  margin-top: 10px;
+}
+
+/* QUERY ITEM */
+.query-item {
+  background: #0f172a;
+  padding: 10px;
+  border-radius: 10px;
+  color: aliceblue;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.query-item:hover {
+  transform: scale(1.02);
+}
+
+/* TOP */
+.query-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* STATUS */
+.status {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.pending {
+  background: #f59e0b;
+}
+
+.resolved {
+  background: #22c55e;
+}
+
+/* ACTIONS */
+.query-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.query-actions select {
+  background: #1e293b;
+  border: none;
+  color: white;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+/* DATE */
+.date {
+  font-size: 12px;
+  color: #94a3b8;
+}

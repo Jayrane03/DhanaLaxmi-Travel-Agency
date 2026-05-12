@@ -190,6 +190,36 @@ p {
 	right: 0;
 }
 
+.card {
+  border-radius: 22px;
+}
+
+.form-control {
+  border-radius: 14px;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #0d6efd;
+}
+
+.btn-primary {
+  border-radius: 14px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  transition: 0.3s;
+}
+
+.card img {
+  transition: 0.4s;
+}
+
+.card img:hover {
+  transform: scale(1.03);
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -214,4 +244,12 @@ p {
 		opacity: 1;
 		transform: none !important;
 	}
+}
+.package-item,
+.card {
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
 }

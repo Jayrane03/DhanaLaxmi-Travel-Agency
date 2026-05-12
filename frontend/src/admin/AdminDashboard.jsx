@@ -97,7 +97,7 @@ function AdminDashboard() {
           <h2>👥 Users</h2>
           <p>Manage registered users.</p>
           <button
-            className="admin-btn outline"
+            className="admin-btn  bg-success"
             onClick={() => navigate("/admin/users")}
           >
             Active Users
@@ -108,17 +108,21 @@ function AdminDashboard() {
         <div className="admin-card">
           <h2>📊 Reports</h2>
           <p>Analyze bookings and performance.</p>
-          <button className="admin-btn outline">
-            Coming Soon
+          <button className="admin-btn bg-secondary text-dark"
+          onClick={() => navigate("/admin/reports")}>
+
+            Reports
           </button>
         </div>
 
         {/* 🔥 NEW: SETTINGS */}
         <div className="admin-card">
-          <h2>⚙️ Settings</h2>
-          <p>Manage system configuration.</p>
-          <button className="admin-btn outline">
-            Coming Soon
+          <h2>⚙️ Query</h2>
+          <p>Manage user query.</p>
+         <button className="admin-btn bg-primary text-light "
+          onClick={() => navigate("/admin/query")}>
+
+            Query
           </button>
         </div>
 

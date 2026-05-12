@@ -10,6 +10,8 @@ import  { isAdmin }  from "../../middleware/isAdmin.js";
 import {
   createPackage,
   getPackages,
+  updatePackage,
+  deletePackage
 } from "../../controller/admin/pacakage-cont.js"; // 🔥 fix spelling
 
 // 👤 user controller
@@ -29,7 +31,8 @@ router.post("/packages", auth, isAdmin, createPackage);
 
 // get all (public for user dashboard)
 router.get("/packages", getPackages);
-
+router.put("/packages/:id", updatePackage);
+router.delete("/packages/:id", deletePackage);
 
 // ================= USERS =================
 
