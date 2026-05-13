@@ -88,7 +88,7 @@ function About() {
       </div>
 
       {/* TEAM */}
-     {location.pathname !== "/" && location.pathname !=="/about" && <Team/>}
+     {location.pathname !== "/home" && location.pathname !=="/about" && <Team/>}
 
     </div>
   );
