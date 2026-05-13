@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Header() {
   const { user, logout, loading } = useAuth();
-
+  const navigate = useNavigate();
   // prevent flicker
   if (loading) return null;
 
@@ -36,6 +36,7 @@ function Header() {
                 <i className="fa fa-envelope-open me-2" />
                 info@dhanalaxmitravel.com
               </small>
+              <button onClick={()=>{navigate("/")}}className="btn-secondary p-1 blue ">Blue Buss</button>
             </div>
           </div>
         </div>
@@ -64,8 +65,9 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarCollapse">
 
             <div className="navbar-nav ms-auto py-0">
-              <Link to="/" className="nav-item nav-link">Home</Link>
+              <Link to="/home" className="nav-item nav-link">Home</Link>
               <Link to="/about" className="nav-item nav-link">About</Link>
+              
               <Link to="/services" className="nav-item nav-link">Services</Link>
               <Link to="/packages" className="nav-item nav-link">Packages</Link>
 

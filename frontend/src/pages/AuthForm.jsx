@@ -91,7 +91,7 @@ export default function AuthForm() {
       if(response.data.user.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.error("❌ Error during login:", error.response?.data || error);

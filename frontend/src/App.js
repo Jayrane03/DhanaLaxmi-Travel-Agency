@@ -24,14 +24,16 @@ import AdminBooking from './admin/AdminBooking';
 import AdminPackages from './admin/AdminPackages';
 import AdminReports from './admin/AdminReports';
 import AdminQuery from './admin/AdminQuery';
+import Bluebus from './pages/Bluebus';
 export default function App() {
 
   const location = useLocation();
 
   // hide header/footer on register + all admin routes
-  const hideLayout =
-    location.pathname === "/register" ||
-    location.pathname.startsWith("/admin");
+ const hideLayout =
+  location.pathname === "/" || // 🔥 hide on BLUE BUS page
+  location.pathname === "/register" ||
+  location.pathname.startsWith("/admin");
 
   return (
     <div>
@@ -41,7 +43,7 @@ export default function App() {
       <Routes>
 
         {/* PUBLIC ROUTES */}
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/register" element={<AuthForm />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
@@ -53,7 +55,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/error" element={<Error />} />
         <Route path="/payment" element={<Payment />} />
-
+        <Route path="/" element={<Bluebus />} />
         {/* 🔥 ADMIN ROUTES WITH LAYOUT */}
         <Route
           path="/admin"

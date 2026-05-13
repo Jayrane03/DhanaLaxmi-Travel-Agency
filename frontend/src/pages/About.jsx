@@ -9,7 +9,7 @@ function About() {
     <div>
 
       {/* HERO (hidden on /) */}
-      {location.pathname !== "/" && (
+      {location.pathname !== "/home" && (
         <div className="container-fluid bg-primary py-5 mb-5 hero-header">
           <div className="container py-5">
             <div className="row justify-content-center py-5">

@@ -33,14 +33,14 @@ const { user , loading } = useAuth();
   };
 
 const fetchQueries = async () => {
-  if (!user?.email) {
+  if (!user?.user?.email) {
     alert("Please login first");
     return;
   }
 
   try {
     const res = await axios.get(
-      `http://localhost:5000/api/queries/user?email=${user.email}`
+      `http://localhost:5000/api/queries/user?email=${user.user.email}`
     );
 
     setQueries(res.data.data || []);

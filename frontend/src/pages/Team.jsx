@@ -34,7 +34,7 @@ function Team() {
               <nav>
                 <ol className="breadcrumb justify-content-center">
                   <li className="breadcrumb-item">
-                    <a href="/">Home</a>
+                    <a href="/home">Home</a>
                   </li>
                   <li className="breadcrumb-item text-white active">
                     Travel Guides
